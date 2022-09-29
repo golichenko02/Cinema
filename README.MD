@@ -2,7 +2,7 @@
 
 Simple REST API for cinema.
 
-## How to run an application project
+## How to run an application
 - Clone repository to your local environment. 
 - Run the following command in order to start Postgres DB: `docker run --name cinema  -e POSTGRES_PASSWORD=root -p 5435:5432  -d postgres`.
 - Run the following command in order to run an application: `mvn spring-boot:run`.
