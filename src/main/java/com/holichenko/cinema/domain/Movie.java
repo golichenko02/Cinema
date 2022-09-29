@@ -1,9 +1,6 @@
 package com.holichenko.cinema.domain;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "movies")
 public class Movie {

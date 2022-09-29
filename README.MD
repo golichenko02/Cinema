@@ -20,6 +20,6 @@ Simple REST API for cinema.
     springframework.data.jpa.domain.Specification along with pagination.
 
 - [x] DB creation should be implemented with Liquibase.
-- [ ] Unit tests
+- [x] Unit tests
 - [ ] Integration tests 
 - [x] Host your code on GitHub and provide instructions for running it in README file.
