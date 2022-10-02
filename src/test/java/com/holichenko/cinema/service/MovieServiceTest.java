@@ -5,15 +5,14 @@ import com.holichenko.cinema.domain.dto.MovieDTO;
 import com.holichenko.cinema.domain.dto.MovieSearchCriteria;
 import com.holichenko.cinema.domain.mapper.MovieMapper;
 import com.holichenko.cinema.repository.MovieRepository;
+import com.holichenko.cinema.repository.specification.MovieSpecification;
 import com.holichenko.cinema.service.movie.impl.MovieService;
 import com.holichenko.cinema.util.EntityGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +34,10 @@ public class MovieServiceTest {
 
     @Mock
     private MovieRepository movieRepository;
+
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private MovieSpecification movieSpecification;
+
     @Mock
     private MovieMapper movieMapper;
     @InjectMocks

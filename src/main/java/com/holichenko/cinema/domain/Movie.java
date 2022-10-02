@@ -1,6 +1,7 @@
 package com.holichenko.cinema.domain;
 
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldNameConstants
 @Entity
 @Table(name = "movies")
 public class Movie {

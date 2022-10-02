@@ -27,6 +27,7 @@ public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final MovieRepository movieRepository;
     private final OrderMapper orderMapper;
+    private final OrderSpecification orderSpecification;
 
     @Override
     public OrderDTO createOrder(OrderDTO orderDTO) {
@@ -43,8 +44,7 @@ public class OrderService implements IOrderService {
     @Transactional(readOnly = true)
     @Override
     public Page<OrderDTO> findAll(OrderSearchCriteria searchCriteria, Pageable pageable) {
-        OrderSpecification orderSpecification = new OrderSpecification(searchCriteria);
-        return orderRepository.findAll(orderSpecification, pageable).map(orderMapper::mapToDTO);
+        return orderRepository.findAll(orderSpecification.build(searchCriteria), pageable).map(orderMapper::mapToDTO);
     }
 
     @Transactional(readOnly = true)

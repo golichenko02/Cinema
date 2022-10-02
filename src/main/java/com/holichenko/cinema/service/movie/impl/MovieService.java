@@ -22,6 +22,7 @@ public class MovieService implements IMovieService {
 
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
+    private final MovieSpecification movieSpecification;
 
     @Override
     public MovieDTO createMovie(Movie movie) {
@@ -38,8 +39,7 @@ public class MovieService implements IMovieService {
 
     @Transactional(readOnly = true)
     public Page<MovieDTO> findAll(MovieSearchCriteria searchCriteria, Pageable pageable) {
-        MovieSpecification movieSpecification = new MovieSpecification(searchCriteria);
-        return movieRepository.findAll(movieSpecification, pageable).map(movieMapper::mapToDTO);
+        return movieRepository.findAll(movieSpecification.build(searchCriteria), pageable).map(movieMapper::mapToDTO);
     }
 
     @Override

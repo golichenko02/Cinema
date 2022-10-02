@@ -4,6 +4,7 @@ package com.holichenko.cinema.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(of = {"totalAmount", "totalSeats"})
 @Data
-@ToString(exclude = "movie")
+@FieldNameConstants
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -30,11 +31,12 @@ public class Order {
     @Column(nullable = false, updatable = false, insertable = false)
     private LocalDateTime createdAt;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    public void removeMovie(){
+    public void removeMovie() {
         this.movie.removeOrder(this);
     }
 

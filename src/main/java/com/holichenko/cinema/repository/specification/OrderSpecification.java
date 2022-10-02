@@ -1,37 +1,30 @@
 package com.holichenko.cinema.repository.specification;
 
+import com.holichenko.cinema.domain.Movie;
 import com.holichenko.cinema.domain.Order;
 import com.holichenko.cinema.domain.dto.OrderSearchCriteria;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.Objects;
+@Component
+public class OrderSpecification {
 
-@RequiredArgsConstructor
-public class OrderSpecification implements Specification<Order> {
-
-    private final OrderSearchCriteria searchCriteria;
-
-    @Override
-    public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        Predicate predicate = criteriaBuilder.conjunction();
-
-        if (Objects.nonNull(searchCriteria.getMovieId())) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("movie").get("id"), searchCriteria.getMovieId()));
-        }
-
-        if (Objects.nonNull(searchCriteria.getTotalSeats())) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("totalSeats"), searchCriteria.getTotalSeats()));
-        }
-
-        if (Objects.nonNull(searchCriteria.getTotalAmount())) {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("totalAmount"), searchCriteria.getTotalAmount()));
-        }
-
-        return predicate;
+    public Specification<Order> build(OrderSearchCriteria searchCriteria) {
+        return andMovieId(searchCriteria)
+                .and(andTotalSeats(searchCriteria))
+                .and(andTotalAmount(searchCriteria));
     }
+
+    private Specification<Order> andMovieId(OrderSearchCriteria searchCriteria) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Order.Fields.movie).get(Movie.Fields.id), searchCriteria.getMovieId());
+    }
+
+    private Specification<Order> andTotalSeats(OrderSearchCriteria searchCriteria) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Order.Fields.totalSeats), searchCriteria.getTotalSeats());
+    }
+
+    private Specification<Order> andTotalAmount(OrderSearchCriteria searchCriteria) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Order.Fields.totalAmount), searchCriteria.getTotalAmount());
+    }
+
 }
