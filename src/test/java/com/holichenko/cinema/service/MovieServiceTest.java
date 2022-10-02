@@ -50,6 +50,7 @@ public class MovieServiceTest {
         //given
         Movie movie = EntityGenerator.generateMovie();
         MovieDTO movieDTO = EntityGenerator.generateMovieDTO(movie);
+
         given(movieRepository.save(any(Movie.class))).willReturn(movie);
         given(movieMapper.mapToDTO(any(Movie.class))).willReturn(movieDTO);
 
@@ -71,7 +72,7 @@ public class MovieServiceTest {
         assertThrows(HttpClientErrorException.class, () -> movieService.updateMovie(movie, movie.getId()));
 
         //then
-        verify(movieRepository, times(1)).findByIdJoinFetchOrders(any(Long.class));
+        verify(movieRepository, times(1)).findByIdJoinFetchOrders(anyLong());
     }
 
     @DisplayName("Update movie - positive case")
@@ -80,6 +81,7 @@ public class MovieServiceTest {
         //given
         Movie movie = Mockito.mock(Movie.class, RETURNS_DEEP_STUBS);
         MovieDTO movieDTO = EntityGenerator.generateMovieDTO(movie);
+
         given(movieRepository.findByIdJoinFetchOrders(any(Long.class))).willReturn(Optional.of(movie));
         given(movieMapper.mapToDTO(any(Movie.class))).willReturn(movieDTO);
 
@@ -87,9 +89,9 @@ public class MovieServiceTest {
         MovieDTO result = movieService.updateMovie(movie, movie.getId());
 
         //then
-        verify(movieRepository, times(1)).findByIdJoinFetchOrders(any(Long.class));
+        verify(movieRepository, times(1)).findByIdJoinFetchOrders(anyLong());
         verify(movie, times(1)).updateMovieData(any(Movie.class));
-        Assertions.assertThat(result).isEqualTo(result);
+        Assertions.assertThat(result).isEqualTo(movieDTO);
     }
 
     @DisplayName("Delete movie - positive case")
@@ -112,6 +114,7 @@ public class MovieServiceTest {
         //given
         Movie movie = EntityGenerator.generateMovie();
         MovieDTO movieDTO = EntityGenerator.generateMovieDTO(movie);
+
         given(movieRepository.findByIdJoinFetchOrders(movie.getId())).willReturn(Optional.of(movie));
         given(movieMapper.mapToDTO(movie)).willReturn(movieDTO);
 

@@ -1,9 +1,7 @@
 package com.holichenko.cinema.domain;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
@@ -12,6 +10,9 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(of = {"totalAmount", "totalSeats"})
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldNameConstants
 @Entity
 @Table(name = "orders")

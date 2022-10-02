@@ -38,6 +38,7 @@ public class Movie {
     private LocalDateTime createdAt;
 
     @Setter(AccessLevel.PRIVATE)
+    @Builder.Default
     @OneToMany(mappedBy = "movie", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<Order> orders = new HashSet<>();
 
