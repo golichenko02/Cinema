@@ -22,6 +22,15 @@ public class EntityGenerator {
 
     public static Movie generateMovie(){
         return Movie.builder()
+                .title(RandomStringUtils.random(30))
+                .startTime(LocalDateTime.now())
+                .hall(ThreadLocalRandom.current().nextInt(20))
+                .duration(ThreadLocalRandom.current().nextInt(200))
+                .build();
+    }
+
+    public static Movie generatePersistedMovie(){
+        return Movie.builder()
                 .id(ThreadLocalRandom.current().nextLong(50_000))
                 .title(RandomStringUtils.random(30))
                 .startTime(LocalDateTime.now())
@@ -36,13 +45,29 @@ public class EntityGenerator {
         return movie;
     }
 
+    public static Movie generatePersistedMovieWithOrders(){
+        Movie movie = generatePersistedMovie();
+        generateOrderSet(movie).forEach(movie::addOrder);
+        return movie;
+    }
+
     public static Order generateOrder(Movie movie){
-        return Order.builder()
+        Order order = Order.builder()
+                .totalSeats(ThreadLocalRandom.current().nextLong(30))
+                .totalAmount(BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(500)))
+                .build();
+        movie.addOrder(order);
+        return order;
+    }
+
+    public static Order generatePersistedOrder(Movie movie){
+        Order order = Order.builder()
                 .id(ThreadLocalRandom.current().nextLong(50_000))
                 .totalSeats(ThreadLocalRandom.current().nextLong(30))
                 .totalAmount(BigDecimal.valueOf(ThreadLocalRandom.current().nextLong(500)))
-                .movie(movie)
                 .build();
+        movie.addOrder(order);
+        return order;
     }
 
     public static MovieDTO generateMovieRequest(){
@@ -84,6 +109,7 @@ public class EntityGenerator {
                 .movieId(order.getMovie().getId())
                 .build();
     }
+
     public static MovieSearchCriteria generateMovieSearchCriteria(){
         return MovieSearchCriteria.builder()
                 .title(RandomStringUtils.random(20))

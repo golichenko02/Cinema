@@ -55,12 +55,12 @@ public class OrderServiceTest {
     @Test
     public void whenCreateOrderThenReturnOrderDTO() {
         //given
-        Movie givenMovie = EntityGenerator.generateMovieWithOrders();
+        Movie givenMovie = EntityGenerator.generatePersistedMovieWithOrders();
         Order givenOrder = EntityGenerator.generateOrder(givenMovie);
         OrderDTO givenOrderDTO = EntityGenerator.generateOrderDTO(givenOrder);
 
         given(orderMapper.mapToEntity(givenOrderDTO)).willReturn(givenOrder);
-        given(movieRepository.findByIdJoinFetchOrders(anyLong())).willReturn(Optional.ofNullable(givenMovie));
+        given(movieRepository.findByIdJoinFetchOrders(anyLong())).willReturn(Optional.of(givenMovie));
         given(orderRepository.saveAndFlush(any(Order.class))).willReturn(givenOrder);
         given(orderMapper.mapToDTO(givenOrder)).willReturn(givenOrderDTO);
 
@@ -69,7 +69,7 @@ public class OrderServiceTest {
 
         //then
         Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result.getMovieId()).isEqualTo(givenMovie.getId());
+        Assertions.assertThat(result.getMovieId()).isNotNull();
         verify(orderRepository, times(1)).saveAndFlush(any());
         verify(movieRepository, times(1)).findByIdJoinFetchOrders(any());
     }
@@ -78,7 +78,7 @@ public class OrderServiceTest {
     @Test
     public void whenCreateOrderThenThrowException() {
         //given
-        Movie givenMovie = EntityGenerator.generateMovieWithOrders();
+        Movie givenMovie = EntityGenerator.generatePersistedMovieWithOrders();
         Order givenOrder = EntityGenerator.generateOrder(givenMovie);
         OrderDTO givenOrderDTO = EntityGenerator.generateOrderDTO(givenOrder);
 
@@ -115,7 +115,7 @@ public class OrderServiceTest {
     public void whenUpdateOrderThenReturnOrderDTO() {
         //given
         Movie givenMovie = EntityGenerator.generateMovieWithOrders();
-        Order givenOrder = spy(EntityGenerator.generateOrder(givenMovie));
+        Order givenOrder = spy(EntityGenerator.generatePersistedOrder(givenMovie));
         OrderDTO givenOrderDTO = EntityGenerator.generateOrderDTO(givenOrder);
 
         given(orderMapper.mapToEntity(givenOrderDTO)).willReturn(givenOrder);

@@ -69,7 +69,7 @@ public class MovieServiceTest {
         given(movieRepository.findByIdJoinFetchOrders(any(Long.class))).willReturn(Optional.empty());
 
         //when
-        assertThrows(HttpClientErrorException.class, () -> movieService.updateMovie(movie, movie.getId()));
+        assertThrows(HttpClientErrorException.class, () -> movieService.updateMovie(movie, anyLong()));
 
         //then
         verify(movieRepository, times(1)).findByIdJoinFetchOrders(anyLong());
