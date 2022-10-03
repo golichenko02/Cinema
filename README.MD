@@ -21,5 +21,5 @@ Simple REST API for cinema.
 
 - [x] DB creation should be implemented with Liquibase.
 - [x] Unit tests
-- [ ] Integration tests 
+- [x] Integration tests 
 - [x] Host your code on GitHub and provide instructions for running it in README file.
