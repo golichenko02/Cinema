@@ -14,7 +14,7 @@ Simple REST API for cinema.
   
 - [x] Each controller implements basic CRUD operations.
 
-- [x] Immplement read operations in 2 variations: 
+- [x] Implement read operations in 2 variations: 
   - Retrieve by id
   - Find All by any parameter of an entity using javax.persistence.criteria and
     springframework.data.jpa.domain.Specification along with pagination.
